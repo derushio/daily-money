@@ -3,7 +3,7 @@ v-app#app
     v-navigation-drawer(app temporary v-model='drawer')
     v-toolbar(app)
         v-toolbar-side-icon(@click.stop='drawer = !drawer')
-        v-toolbar-title App
+        v-toolbar-title Daily money
 
     v-content
         v-container(fluid)
