@@ -26,8 +26,7 @@ const store = new Vuex.Store({
             const budget = parseInt(result.text, 10);
             if (Number.isNaN(budget)) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
-                context.dispatch('newMonth', args);
-                return;
+                return await context.dispatch('newMonth', args);
             }
 
             context.state.monthList[args.index] = {
