@@ -1,8 +1,10 @@
 <template lang='pug'>
 .today-budget
     .month
-        h2.title: p 今月の予算
-        p {{ month.budget }}円
+        h2.title 今月の予算
+        v-layout(wrap row align-center)
+            v-text-field(v-model='month.budget' readonly)
+            v-btn 予算を変更
 </template>
 
 <script lang='ts'>

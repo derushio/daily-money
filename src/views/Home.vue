@@ -40,29 +40,9 @@ export default class Home extends Vue {
         const month = this.getCurrent() as Month | undefined;
         if (month == null) {
             await this.$vdialog.alert('データがありません、新規作成します').promise;
-            await this.newMonth();
+            await this.$store.dispatch('newMonth', { vm: this, index: this.getIndex() });
+            this.$forceUpdate();
         }
-    }
-
-    protected async newMonth() {
-        const result = (await this.$vdialog.prompt('今月の予算を入力してください')
-            .promise);
-        const budget = parseInt(result.text, 10);
-        if (!result.confirm) {
-            this.loadMonth();
-            return;
-        }
-        if (Number.isNaN(budget)) {
-            await this.$vdialog.alert('値が不正です').promise;
-            this.newMonth();
-            return;
-        }
-
-        this.$store.dispatch('newMonth', {
-            month: this.getIndex(),
-            budget,
-        });
-        this.$forceUpdate();
     }
 }
 </script>

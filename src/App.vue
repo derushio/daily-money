@@ -7,17 +7,37 @@ v-app#app
 
     v-content
         v-container(fluid)
-            router-view
+            router-view(v-if='loaded')
 
     v-footer(app inset)
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
+import { aswait } from '@/utils/AsyncTimeout';
 
 @Component
 export default class App extends Vue {
+    protected loaded = false;
     protected drawer = false;
+
+    protected async mounted() {
+        this.$vprogress.circularLoading(async () => {
+            await Promise.all([
+                async () => {
+                    try {
+                        await this.$store.dispatch('load');
+                    } catch (e) {
+                        if (e.message === 'no data') {
+                            await this.$vsnackbar.alert('ようこそ').promise;
+                        }
+                    }
+                },
+                aswait(1000),
+            ]);
+            this.loaded = true;
+        });
+    }
 }
 </script>
 

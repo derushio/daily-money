@@ -18,13 +18,25 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        newMonth: (context, args: { month: string, budget: number }) => {
-            context.state.monthList[args.month] = {
-                budget: args.budget,
+        newMonth: async (context, args: { vm: Vue, index: string }) => {
+            const result = (await args.vm.$vdialog.prompt(`${args.index}月の予算を入力してください`)
+                .promise);
+            const budget = parseInt(result.text, 10);
+            if (!result.confirm) {
+                throw new Error('canceled');
+            }
+            if (Number.isNaN(budget)) {
+                await args.vm.$vdialog.alert('値が不正です').promise;
+                context.dispatch('newMonth', args);
+                return;
+            }
+
+            context.state.monthList[args.index] = {
+                budget,
                 actions: [],
             };
-
             context.commit('setMonthList', context.state.monthList);
+
             context.dispatch('save');
         },
 
@@ -58,7 +70,6 @@ const store = new Vuex.Store({
         },
     },
 });
-store.dispatch('load');
 
 export default store;
 
