@@ -37,6 +37,23 @@ const store = new Vuex.Store({
 
             context.dispatch('save');
         },
+        changeBudget: async (context, args: { vm: Vue, index: string }) => {
+            const result = (await args.vm.$vdialog.prompt({
+                message: `${args.index}月の予算を入力してください`,
+                persistent: true,
+            }).promise);
+            const budget = parseInt(result.text, 10);
+            if (Number.isNaN(budget)) {
+                await args.vm.$vdialog.alert('値が不正です').promise;
+                return await context.dispatch('changeBudget', args);
+            }
+
+            context.state.monthList[args.index].budget = budget;
+            context.commit('setMonthList', context.state.monthList);
+
+            context.dispatch('save');
+
+        },
 
         save: (context) => {
             localStorage.setItem('timestamp', (new Date()).getTime().toString());

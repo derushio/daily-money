@@ -3,9 +3,10 @@
     v-container.month
         h2.title 今月の予算
         v-layout(wrap row align-center)
-            v-text-field(v-model='month.budget' readonly)
+            v-text-field(:value='month.budget' readonly)
             span 円
-            v-flex(sm3 xs12).mx-2: v-btn.fw.mx-0 予算を変更
+            v-flex(sm3 xs12).mx-2
+                v-btn.fw.mx-0(@click='changeBudget') 予算を変更
     v-divider
 
     v-container.daily
@@ -22,11 +23,17 @@ import { Month } from '@/store';
 
 @Component
 export default class DailyBudget extends Vue {
+    @Prop({ type: String, required: true })
+    protected index?: string;
     @Prop({ type: Object, required: true })
     protected month?: Month;
 
     protected getDailyBudget() {
         return Math.floor(this.month!.budget / 31);
+    }
+
+    protected async changeBudget() {
+        await this.$store.dispatch('changeBudget', { vm: this, index: this.index! });
     }
 }
 </script>

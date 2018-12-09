@@ -1,8 +1,8 @@
 <template lang='pug'>
 v-container#home(fluid fill-height)
     v-layout(justify-center): v-flex(xs12 sm10 md8)
-        template(v-if='getCurrent() != null')
-            daily-budget(:month='getCurrent()')
+        daily-budget(v-if='getCurrent() != null'
+                :index='getIndex()' :month='getCurrent()')
 </template>
 
 <script lang='ts'>
