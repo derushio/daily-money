@@ -2,17 +2,17 @@
 v-container#home(fluid fill-height)
     v-layout(justify-center): v-flex(xs12 sm10 md8)
         template(v-if='getCurrent() != null')
-            today-budget(:month='getCurrent()')
+            daily-budget(:month='getCurrent()')
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import TodayBudget from '@/components/money/TodayBudget.vue';
+import DailyBudget from '@/components/money/DailyBudget.vue';
 import { Month } from '@/store';
 
 @Component({
     components: {
-        TodayBudget,
+        DailyBudget,
     },
 })
 export default class Home extends Vue {
