@@ -39,9 +39,8 @@ const store = new Vuex.Store({
             const result = (await args.vm.$vdialog.prompt({
                 message: `${args.index}月の予算を入力してください`,
             }).promise);
-            if (!result.confirm) {
-                return;
-            }
+            if (!result.confirm) { return; }
+
             const budget = parseInt(result.text, 10);
             if (Number.isNaN(budget)) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
@@ -55,15 +54,12 @@ const store = new Vuex.Store({
             const nameResult = (await args.vm.$vdialog.prompt({
                 message: `収支タイトルを入力してください`,
             }).promise);
-            if (!nameResult.confirm) {
-                return;
-            }
+            if (!nameResult.confirm) { return; }
+
             const valueResult = (await args.vm.$vdialog.prompt({
                 message: `収支額を入力してください`,
             }).promise);
-            if (!valueResult.confirm) {
-                return;
-            }
+            if (!valueResult.confirm) { return; }
 
             const name = nameResult.text;
             const value = parseInt(valueResult.text, 10);
