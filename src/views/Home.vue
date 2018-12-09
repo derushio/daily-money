@@ -58,11 +58,10 @@ export default class Home extends Vue {
             return;
         }
 
-        this.$store.commit('newMonth', {
+        this.$store.dispatch('newMonth', {
             month: this.getIndex(),
             budget,
         });
-        // TODO: forceUpdate以外の方法
         this.$forceUpdate();
     }
 }
