@@ -17,6 +17,11 @@
             v-flex(lg3 sm4 xs6): v-text-field(:value='getDailyBudget()' readonly)
             span 円
     v-divider
+
+    v-container.actions
+        v-layout(wrap row)
+            v-btn(@click='addAction') 収支を追加
+    v-divider
 </template>
 
 <script lang='ts'>
@@ -36,6 +41,10 @@ export default class DailyBudget extends Vue {
 
     protected async changeBudget() {
         await this.$store.dispatch('changeBudget', { vm: this, index: this.index! });
+    }
+
+    protected async addAction() {
+        await this.$store.dispatch('addAction', { vm: this, index: this.index! });
     }
 }
 </script>

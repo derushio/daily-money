@@ -42,7 +42,6 @@ const store = new Vuex.Store({
             if (!result.confirm) {
                 return;
             }
-
             const budget = parseInt(result.text, 10);
             if (Number.isNaN(budget)) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
@@ -50,6 +49,32 @@ const store = new Vuex.Store({
             }
 
             context.state.monthList[args.index].budget = budget;
+            context.dispatch('save');
+        },
+        addAction: async (context, args: { vm: Vue, index: string }) => {
+            const nameResult = (await args.vm.$vdialog.prompt({
+                message: `収支タイトルを入力してください`,
+            }).promise);
+            if (!nameResult.confirm) {
+                return;
+            }
+            const valueResult = (await args.vm.$vdialog.prompt({
+                message: `収支額を入力してください`,
+            }).promise);
+            if (!valueResult.confirm) {
+                return;
+            }
+
+            const name = nameResult.text;
+            const value = parseInt(valueResult.text, 10);
+            if (Number.isNaN(value)) {
+                await args.vm.$vdialog.alert('値が不正です').promise;
+                return await context.dispatch('addAction', args);
+            }
+
+            context.state.monthList[args.index].actions.push({
+                name, value,
+            });
             context.dispatch('save');
         },
 
