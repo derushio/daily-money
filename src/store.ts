@@ -38,8 +38,11 @@ const store = new Vuex.Store({
         changeBudget: async (context, args: { vm: Vue, index: string }) => {
             const result = (await args.vm.$vdialog.prompt({
                 message: `${args.index}月の予算を入力してください`,
-                persistent: true,
             }).promise);
+            if (!result.confirm) {
+                return;
+            }
+
             const budget = parseInt(result.text, 10);
             if (Number.isNaN(budget)) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
