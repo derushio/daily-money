@@ -1,7 +1,9 @@
 <template lang='pug'>
 .daily-budget
+    h2.headline {{ index }} の情報
+
     v-container.month
-        h2.title 今月の予算
+        h3.title 月の予算
         v-layout(wrap row align-center)
             v-text-field(:value='month.budget' readonly)
             span 円
@@ -10,7 +12,7 @@
     v-divider
 
     v-container.daily
-        h2.title １日あたりの予算
+        h3.title １日あたりの予算
         v-layout(wrap row align-center)
             v-text-field(:value='getDailyBudget()' readonly)
             span 円
