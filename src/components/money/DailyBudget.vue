@@ -5,7 +5,7 @@
     v-container.month
         h3.title 月の予算
         v-layout(wrap row align-center)
-            v-text-field(:value='month.budget' readonly)
+            v-flex(lg3 sm4 xs6): v-text-field(:value='month.budget' readonly)
             span 円
             v-flex(sm3 xs12).mx-2
                 v-btn.fw.mx-0(@click='changeBudget') 予算を変更
@@ -14,7 +14,7 @@
     v-container.daily
         h3.title １日あたりの予算
         v-layout(wrap row align-center)
-            v-text-field(:value='getDailyBudget()' readonly)
+            v-flex(lg3 sm4 xs6): v-text-field(:value='getDailyBudget()' readonly)
             span 円
     v-divider
 </template>
