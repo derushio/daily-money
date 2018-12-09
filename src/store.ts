@@ -29,12 +29,10 @@ const store = new Vuex.Store({
                 return await context.dispatch('newMonth', args);
             }
 
-            context.state.monthList[args.index] = {
+            Vue.set(context.state.monthList, args.index, {
                 budget,
                 actions: [],
-            };
-            context.commit('setMonthList', context.state.monthList);
-
+            });
             context.dispatch('save');
         },
         changeBudget: async (context, args: { vm: Vue, index: string }) => {
@@ -49,10 +47,7 @@ const store = new Vuex.Store({
             }
 
             context.state.monthList[args.index].budget = budget;
-            context.commit('setMonthList', context.state.monthList);
-
             context.dispatch('save');
-
         },
 
         save: (context) => {

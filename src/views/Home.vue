@@ -6,7 +6,7 @@ v-container#home(fluid fill-height)
 </template>
 
 <script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import DailyBudget from '@/components/money/DailyBudget.vue';
 import { Month } from '@/store';
 
@@ -41,7 +41,7 @@ export default class Home extends Vue {
         if (month == null) {
             await this.$vdialog.alert('データがありません、新規作成します').promise;
             await this.$store.dispatch('newMonth', { vm: this, index: this.getIndex() });
-            this.$forceUpdate();
+            // this.$forceUpdate();
         }
     }
 }
