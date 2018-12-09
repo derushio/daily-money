@@ -22,21 +22,17 @@ export default class App extends Vue {
     protected drawer = false;
 
     protected async mounted() {
-        this.$vprogress.circularLoading(async () => {
-            await Promise.all([
-                async () => {
-                    try {
-                        await this.$store.dispatch('load');
-                    } catch (e) {
-                        if (e.message === 'no data') {
-                            await this.$vsnackbar.alert('ようこそ').promise;
-                        }
-                    }
-                },
-                aswait(1000),
-            ]);
-            this.loaded = true;
-        });
+        try {
+            await this.$vprogress.circularLoading(async () => {
+                await this.$store.dispatch('load');
+            }, { minTime: 1000 });
+        } catch (e) {
+            if (e.message === 'no data') {
+                this.$vsnackbar.alert('ようこそ');
+            }
+        }
+
+        this.loaded = true;
     }
 }
 </script>
