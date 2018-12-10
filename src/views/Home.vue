@@ -50,7 +50,7 @@ export default class Home extends Vue {
     }
 
     protected getSectionDate() {
-        return 10;
+        return this.$store.state.sectionDate;
     }
 
     protected getIndex() {
