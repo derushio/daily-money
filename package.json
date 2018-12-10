@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@mdi/font": "^3.2.89",
+    "@types/shortid": "^0.0.29",
     "instant-vuetify-overlays": "^1.4.2",
     "register-service-worker": "^1.5.2",
     "roboto-fontface": "^0.10.0",
+    "shortid": "^2.2.14",
     "vue": "^2.5.19",
     "vue-class-component": "^6.3.2",
     "vue-property-decorator": "^7.2.0",

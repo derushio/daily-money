@@ -80,7 +80,9 @@ export default class DailyBudget extends Vue {
     }
 
     protected async openMonthActionDialog(monthAction: MonthAction) {
-        this.$vdialog.open({ component: MonthActionDialog, propsData: { monthAction } });
+        this.$vdialog.open({ component: MonthActionDialog, propsData: {
+            index: this.index!, monthAction,
+        } });
     }
 
     protected async changeBudget() {

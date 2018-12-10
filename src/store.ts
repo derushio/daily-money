@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import ShortId from 'shortid';
 
 Vue.use(Vuex);
 
@@ -92,8 +93,40 @@ const store = new Vuex.Store({
             }
 
             context.state.monthList[args.index].actions.push({
+                id: ShortId(),
                 name, value,
             });
+            context.commit('setMonthList', context.state.monthList);
+            context.dispatch('save');
+        },
+        getAction: (context, args: { vm: Vue, index: string, id: string }) => {
+            for (const action of  context.state.monthList[args.index].actions) {
+                if (action.id === args.id) {
+                    return action;
+                }
+            }
+
+            return null;
+        },
+        updateAction: async (context, args: { vm: Vue, index: string,
+                id: string, value: number }) => {
+            const action = await context.dispatch('getAction', args);
+            if (action == null) {
+                throw new Error('no action');
+            }
+
+            action.value = args.value;
+            context.commit('setMonthList', context.state.monthList);
+            context.dispatch('save');
+        },
+        removeAction: async (context, args: { vm: Vue, index: string, id: string}) => {
+            const action = await context.dispatch('getAction', args);
+            if (action == null) {
+                throw new Error('no action');
+            }
+
+            const actions = context.state.monthList[args.index].actions;
+            actions.splice(actions.indexOf(action), 1);
             context.commit('setMonthList', context.state.monthList);
             context.dispatch('save');
         },
@@ -123,6 +156,12 @@ const store = new Vuex.Store({
             const monthList = {} as MonthList;
             for (const key of monthIndexes) {
                 monthList[key] = JSON.parse(localStorage.getItem(key)!);
+                for (const action of monthList[key].actions) {
+                    if (action.id == null) {
+                        // migration
+                        action.id = ShortId();
+                    }
+                }
             }
 
             context.commit('setCurrentMonth', currentMonth);
@@ -140,6 +179,7 @@ export interface Month {
 }
 
 export interface MonthAction {
+    id: string;
     name: string;
     value: number;
 }
