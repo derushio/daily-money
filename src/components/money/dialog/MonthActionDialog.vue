@@ -1,10 +1,12 @@
 <template lang='pug'>
 v-card.month-action-dialog
-    v-card-title.title.grey.lighten-2(headline) {{ monthAction.name }}
     v-card-text
+        v-text-field(v-model='name')
+        v-divider
         v-layout(wrap row align-center)
             v-text-field(v-model='value' type='number')
             span 円
+    v-divider
     v-card-actions
         v-spacer
         v-btn(flat color='error' @click='remove') REMOVE
@@ -23,16 +25,20 @@ export default class MonthActionDialog extends Vue {
     protected index?: string;
     @Prop({ type: Object, required: true })
     protected monthAction?: MonthAction;
+
+    protected name = '';
     protected value = '0';
 
     protected mounted() {
+        this.name = this.monthAction!.name;
         this.value = this.monthAction!.value.toString();
     }
 
     protected async update() {
         await this.$store.dispatch('updateAction', {
             vm: this, index: this.index!,
-            id: this.monthAction!.id, value: parseInt(this.value, 10),
+            id: this.monthAction!.id,
+            name: this.name, value: parseInt(this.value, 10),
         });
         this.$emit('ok');
     }

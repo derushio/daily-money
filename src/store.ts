@@ -109,12 +109,13 @@ const store = new Vuex.Store({
             return null;
         },
         updateAction: async (context, args: { vm: Vue, index: string,
-                id: string, value: number }) => {
+                id: string, name: string, value: number }) => {
             const action = await context.dispatch('getAction', args);
             if (action == null) {
                 throw new Error('no action');
             }
 
+            action.name = args.name;
             action.value = args.value;
             context.commit('setMonthList', context.state.monthList);
             context.dispatch('save');
