@@ -7,7 +7,7 @@ v-card.month-action-dialog
             v-text-field(v-model='value' type='number')
             span 円
     v-divider
-    v-card-actions
+    v-card-actions.overflow-x-auto
         v-spacer
         v-btn(flat color='error' @click='remove') REMOVE
         v-btn(flat color='warning' @click='cancel') CANCEL
