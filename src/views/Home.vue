@@ -2,7 +2,8 @@
 v-container#home(fluid fill-height)
     v-layout(justify-center): v-flex(xs12 sm10 md8)
         daily-budget(v-if='getCurrent() != null'
-                :index='getIndex()' :month='getCurrent()')
+                :index='getIndex()' :month='getCurrent()'
+                :date='getDate()' :section-date='getSectionDate()')
 </template>
 
 <script lang='ts'>
@@ -16,12 +17,38 @@ import { Month } from '@/store';
     },
 })
 export default class Home extends Vue {
+    protected date = new Date();
+
     protected getYear() {
-        return new Date().getFullYear();
+        let year = this.date.getFullYear();
+        if (this.date.getMonth() + 1 === 1
+                && this.date.getDate() < this.getSectionDate()) {
+            year--;
+        }
+        return year;
     }
 
     protected getMonth() {
-        return new Date().getMonth() + 1;
+        let month = this.date.getMonth() + 1;
+        if (this.date.getDate() < this.getSectionDate()) {
+            month--;
+            if (month === 0) {
+                month = 12;
+            }
+        }
+        return month;
+    }
+
+    protected getDate() {
+        let date = this.date.getDate();
+        if (this.date.getDate() < this.getSectionDate()) {
+            date += 31;
+        }
+        return date;
+    }
+
+    protected getSectionDate() {
+        return 10;
     }
 
     protected getIndex() {

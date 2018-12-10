@@ -1,38 +1,48 @@
 <template lang='pug'>
 .daily-budget
-    h2.headline: p {{ index }} の情報
+    p: h2.headline {{ index }} の情報
 
-    v-container.month
-        h3.title: p 月の予算
-        v-layout(wrap row align-center)
+    .month.px-3
+        p: h3.title 月の予算
+        p: v-layout(wrap row align-center)
             v-flex(lg3 sm4 xs6): v-text-field(:value='month.budget' readonly)
             span 円
             v-flex(sm3 xs12).mx-2
                 v-btn.fw.mx-0(@click='changeBudget') 予算を変更
-    v-divider
 
-    v-container.daily
-        h3.title: p １日あたりの予算
-        v-layout(wrap row align-center)
+        p: h3.title 今月の支出合計
+        p: v-layout(wrap row align-center)
+            v-flex(lg3 sm4 xs6): v-text-field(:value='getSumActionValues()' readonly)
+            span 円
+
+        p: h3.title 月の残予算
+        p: v-layout(wrap row align-center)
+            v-flex(lg3 sm4 xs6): v-text-field(:value='getNowBudget()' readonly)
+            span 円
+    v-divider.mb-3
+
+    .daily.px-3
+        p: h3.title １日あたりの予算
+        p: v-layout(wrap row align-center)
             v-flex(lg3 sm4 xs6): v-text-field(:value='getDailyBudget()' readonly)
             span 円
-    v-divider
+    v-divider.mb-3
 
-    v-container.actions
-        v-layout(wrap row)
+    .actions.px-3
+        p: v-layout(wrap row)
             v-btn(@click='addAction') 収支を追加
-    v-divider
+    v-divider.mb-3
 
-    v-container.actions
-        h3.title: p 収支リスト
-        v-layout(wrap row)
+    .actions.px-3
+        p: h3.title 収支リスト
+        p: v-layout(wrap row)
             v-flex(v-for='action in month.actions' lg4 sm6 xs12).pa-1: v-card
                 v-card-text: v-layout(wrap row)
                     span {{ action.name }}
                     v-divider(vertical).mx-2
                     span {{ action.value }}
                     span 円
-    v-divider
+    v-divider.mb-3
 </template>
 
 <script lang='ts'>
@@ -45,9 +55,23 @@ export default class DailyBudget extends Vue {
     protected index?: string;
     @Prop({ type: Object, required: true })
     protected month?: Month;
+    @Prop({ type: Number, required: true })
+    protected date?: number;
+    @Prop({ type: Number, required: true })
+    protected sectionDate?: number;
+
+    protected getSumActionValues() {
+        return this.month!.actions.reduce((prev, action) => {
+            return prev + action.value;
+        }, 0);
+    }
+
+    protected getNowBudget() {
+        return this.month!.budget - this.getSumActionValues();
+    }
 
     protected getDailyBudget() {
-        return Math.floor(this.month!.budget / 31);
+        return Math.floor(this.getNowBudget() / (31 - (this.date! - this.sectionDate!)));
     }
 
     protected async changeBudget() {
