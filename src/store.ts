@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        setSectionDate: async (context, args: { vm: Vue, index: string }) => {
+        changeSectionDate: async (context, args: { vm: Vue }) => {
             const result = await args.vm.$vdialog.prompt({
                 message: `予算のリセット日を入力してください (1〜28)`,
             }).promise;

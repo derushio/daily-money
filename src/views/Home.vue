@@ -4,16 +4,18 @@ v-container#home(fluid fill-height)
         daily-budget(v-if='getCurrent() != null'
                 :index='getIndex()' :month='getCurrent()'
                 :date='getDate()' :section-date='getSectionDate()')
+        money-config
 </template>
 
 <script lang='ts'>
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import MoneyConfig from '@/components/money/MoneyConfig.vue';
 import DailyBudget from '@/components/money/DailyBudget.vue';
 import { Month } from '@/store';
 
 @Component({
     components: {
-        DailyBudget,
+        MoneyConfig, DailyBudget,
     },
 })
 export default class Home extends Vue {
