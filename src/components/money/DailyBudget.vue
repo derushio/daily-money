@@ -36,18 +36,22 @@
     .actions.px-3
         p: h3.title 収支リスト
         p: v-layout(wrap row)
-            v-flex(v-for='action in month.actions' lg4 sm6 xs12).pa-1: v-card
-                v-card-text: v-layout(wrap row)
-                    span {{ action.name }}
-                    v-divider(vertical).mx-2
-                    span {{ action.value }}
-                    span 円
+            v-flex(v-for='action in month.actions' lg4 sm6 xs12).pa-1
+                v-hover(@click='openMonthActionDialog(action)')
+                    v-card.pointer(slot-scope='{ hover }'
+                            :class='`elevation-${hover ? 12 : 2}`')
+                        v-card-text: v-layout(wrap row)
+                            span {{ action.name }}
+                            v-divider(vertical).mx-2
+                            span {{ action.value }}
+                            span 円
     v-divider.mb-3
 </template>
 
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Month } from '@/store';
+import MonthActionDialog from '@/components/money/dialog/MonthActionDialog.vue';
+import { Month, MonthAction } from '@/store';
 
 @Component
 export default class DailyBudget extends Vue {
@@ -72,6 +76,10 @@ export default class DailyBudget extends Vue {
 
     protected getDailyBudget() {
         return Math.floor(this.getNowBudget() / (31 - (this.date! - this.sectionDate!)));
+    }
+
+    protected async openMonthActionDialog(monthAction: MonthAction) {
+        this.$vdialog.open({ component: MonthActionDialog, propsData: { monthAction } });
     }
 
     protected async changeBudget() {

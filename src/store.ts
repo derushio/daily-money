@@ -136,10 +136,12 @@ export default store;
 
 export interface Month {
     budget: number;
-    actions: Array<{
-        name: string;
-        value: number;
-    }>;
+    actions: MonthAction[];
+}
+
+export interface MonthAction {
+    name: string;
+    value: number;
 }
 
 export interface MonthList {
