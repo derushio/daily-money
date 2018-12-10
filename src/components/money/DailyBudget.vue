@@ -36,10 +36,11 @@
     .actions.px-3
         p: h3.title 収支リスト
         p: v-layout(wrap row)
-            v-flex(v-for='action in month.actions' lg4 sm6 xs12).pa-1
-                v-hover(@click='openMonthActionDialog(action)')
+            v-flex(v-for='action, i in month.actions' :key='i' lg4 sm6 xs12).pa-1
+                v-hover
                     v-card.pointer(slot-scope='{ hover }'
-                            :class='`elevation-${hover ? 12 : 2}`')
+                            :class='`elevation-${hover ? 12 : 2}`'
+                            @click='openMonthActionDialog(action)')
                         v-card-text: v-layout(wrap row)
                             span {{ action.name }}
                             v-divider(vertical).mx-2
