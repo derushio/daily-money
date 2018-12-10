@@ -33,6 +33,7 @@ export default class Home extends Vue {
         if (this.date.getDate() < this.getSectionDate()) {
             month--;
             if (month === 0) {
+                // 年をまたいだ考慮
                 month = 12;
             }
         }
@@ -42,6 +43,7 @@ export default class Home extends Vue {
     protected getDate() {
         let date = this.date.getDate();
         if (this.date.getDate() < this.getSectionDate()) {
+            // TODO: 厳密にやる
             date += 31;
         }
         return date;
