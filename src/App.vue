@@ -1,9 +1,13 @@
 <template lang='pug'>
 v-app#app
     v-navigation-drawer(app temporary v-model='drawer')
+        v-container
+            v-layout(wrap column)
+                v-btn(flat @click='$router.push({ name: "Home" })') Home
+                v-btn(flat @click='$router.push({ name: "History" })') History
     v-toolbar(app)
         v-toolbar-side-icon(@click.stop='drawer = !drawer')
-        v-toolbar-title Daily money
+        v-toolbar-title(@click='$router.push({ name: "Home" })') Daily money
 
     v-content
         v-container(fluid)
