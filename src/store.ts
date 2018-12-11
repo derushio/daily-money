@@ -26,7 +26,7 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        changeSectionDate: async (context, args: { vm: Vue }) => {
+        updateSectionDate: async (context, args: { vm: Vue }) => {
             const result = await args.vm.$vdialog.prompt({
                 message: `予算のリセット日を入力してください (1〜28)`,
             }).promise;
@@ -34,7 +34,7 @@ const store = new Vuex.Store({
             const date = parseInt(result.text, 10);
             if (Number.isNaN(date) || 28 < date) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
-                return await context.dispatch('setSectionDate', args);
+                return await context.dispatch('updateSectionDate', args);
             }
 
             context.commit('setSectionDate', date);
@@ -58,7 +58,7 @@ const store = new Vuex.Store({
             context.commit('setMonthList', context.state.monthList);
             context.dispatch('save');
         },
-        changeBudget: async (context, args: { vm: Vue, index: string }) => {
+        updateBudget: async (context, args: { vm: Vue, index: string }) => {
             const result = await args.vm.$vdialog.prompt({
                 message: `${args.index}月の予算を入力してください`,
             }).promise;
@@ -67,7 +67,7 @@ const store = new Vuex.Store({
             const budget = parseInt(result.text, 10);
             if (Number.isNaN(budget)) {
                 await args.vm.$vdialog.alert('値が不正です').promise;
-                return await context.dispatch('changeBudget', args);
+                return await context.dispatch('updateBudget', args);
             }
 
             context.state.monthList[args.index].budget = budget;

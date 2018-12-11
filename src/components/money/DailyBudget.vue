@@ -8,7 +8,7 @@
             v-flex(lg3 sm4 xs6): v-text-field(:value='month.budget' readonly)
             span 円
             v-flex(sm3 xs12).mx-2
-                v-btn.fw.mx-0(@click='changeBudget') 予算を変更
+                v-btn.fw.mx-0(@click='updateBudget') 予算を変更
 
         p: h3.title 今月の支出合計
         p: v-layout(wrap row align-center)
@@ -85,8 +85,8 @@ export default class DailyBudget extends Vue {
         } });
     }
 
-    protected async changeBudget() {
-        await this.$store.dispatch('changeBudget', { vm: this, index: this.index! });
+    protected async updateBudget() {
+        await this.$store.dispatch('updateBudget', { vm: this, index: this.index! });
     }
 
     protected async addAction() {

@@ -8,7 +8,7 @@
             v-flex(lg3 sm4 xs6): v-text-field(:value='$store.state.sectionDate' readonly)
             span 日
             v-flex(sm3 xs12).mx-2
-                v-btn.fw.mx-0(@click='changeSectionDate') 変更
+                v-btn.fw.mx-0(@click='updateSectionDate') 変更
     v-divider.mb-3
 </template>
 
@@ -17,8 +17,8 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class MoneyConfig extends Vue {
-    protected async changeSectionDate() {
-        await this.$store.dispatch('changeSectionDate', { vm: this });
+    protected async updateSectionDate() {
+        await this.$store.dispatch('updateSectionDate', { vm: this });
     }
 }
 </script>
